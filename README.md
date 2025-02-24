@@ -1,93 +1,89 @@
-# Waste Type Classification using CNN
+# Multi-Class Waste Classification using MobileNetV2
 
-This project implements a Convolutional Neural Network (CNN) to classify different types of waste materials based on images. The model is trained on a dataset of waste images and can predict the category of a given waste item with high accuracy.
+## Overview
+This project implements a Convolutional Neural Network (CNN) for multi-class waste classification using the MobileNetV2 model. The model is trained on an image dataset containing different categories of waste, and it aims to automate the classification process for efficient waste sorting and recycling.
 
 ## Features
-- Image preprocessing and dataset handling
-- Convolutional Neural Network (CNN) architecture for classification
-- Model training and evaluation with accuracy and loss visualization
-- Prediction function to classify a single image
-- Model saving and loading functionality
+- **Data Loading & Preprocessing**: Loads images from a dataset directory, resizes them to 224x224 pixels, and normalizes pixel values.
+- **Label Encoding & Splitting**: Encodes class labels using `LabelEncoder` and splits data into training and validation sets.
+- **Data Augmentation**: Applies random transformations to improve model generalization.
+- **Pretrained Model (MobileNetV2)**: Uses MobileNetV2 with fine-tuning of the last 10 layers for better feature extraction.
+- **Training with Class Weights**: Handles class imbalances by computing balanced class weights.
+- **Model Evaluation & Prediction**: Evaluates model performance and allows single-image classification.
 
-## Dataset
-This project uses the [RealWaste Dataset](https://archive.ics.uci.edu/dataset/908/realwaste) from the UCI Machine Learning Repository. Ensure you download and place the dataset inside the `dataset/` directory.
-
-### Dataset Information
-RealWaste is a real-world image classification dataset containing waste items captured within an authentic landfill environment. The dataset consists of **4,752 images** categorized into **9 major material types**:
-
-- **Cardboard**: 461 images
-- **Food Organics**: 411 images
-- **Glass**: 420 images
-- **Metal**: 790 images
-- **Miscellaneous Trash**: 495 images
-- **Paper**: 500 images
-- **Plastic**: 921 images
-- **Textile Trash**: 318 images
-- **Vegetation**: 436 images
-
-The dataset was created as part of an honors thesis exploring the performance of convolutional neural networks (CNNs) on real waste materials compared to idealized waste object datasets. The images are provided in **524x524 resolution**.
-
-For more details, refer to the paper: *RealWaste: A Novel Real-Life Data Set for Landfill Waste Classification Using Deep Learning* by Sam Single, Saeid Iranmanesh, and Raad Raad (2023).
-
-## Installation
-### Prerequisites
-Ensure you have Python 3 installed along with the following dependencies:
-
-```bash
-pip install numpy pandas pillow scikit-learn tensorflow matplotlib
+## Dataset Structure
+Ensure the dataset is structured as follows:
 ```
-
-### Clone the Repository
-```bash
-git clone https://github.com/1akin1/Waste-Type-Classification.git
-cd Waste-Type-Classification
+dataset/
+│── Cardboard/
+│── Food Organics/
+│── Glass/
+│── Metal/
+│── Miscellaneous Trash/
+│── Paper/
+│── Plastic/
+│── Textile Trash/
+│── Vegetation/
 ```
+Each class folder contains images belonging to that category.
 
-## Usage
-### Dataset Preparation
-1. Download the dataset from [RealWaste Dataset](https://archive.ics.uci.edu/dataset/908/realwaste).
-2. Extract and place the images inside the `dataset/` directory.
-3. Ensure that images are organized in subdirectories based on their waste categories.
+## Installation & Setup
+1. Clone the repository:
+   ```sh
+   git clone <repository_url>
+   cd <repository_folder>
+   ```
+2. Install required dependencies:
+   ```sh
+   pip install numpy pandas pillow scikit-learn tensorflow matplotlib
+   ```
+3. Ensure your dataset is correctly placed inside the `dataset/` directory.
 
-### Training the Model
-Run the script to train the model:
-```bash
-python train.py
-```
-The trained model will be saved in the `saved_model/` directory.
+## Running the Model in Jupyter Lab
+To use the model in Jupyter Lab:
+1. Open Jupyter Lab:
+   ```sh
+   jupyter lab
+   ```
+2. Run the notebook cells sequentially to train and test the model.
+3. Modify parameters as needed within the notebook.
 
-### Predict a Single Image
-Use the `predict_image` function in `train.py` to classify an individual image:
+## Training the Model
+Run the script inside Jupyter Lab to train the model:
 ```python
-predict_image("test_images/sample.jpg")
+# Execute in a Jupyter Notebook cell
+dataset_path = "dataset/"
+train_model(dataset_path)  # Modify the function name if needed
+```
+Training runs for 2 epochs by default but can be adjusted. The model will be saved as:
+```
+dataset/realwaste-main/cnn_multiclass_classification.keras
 ```
 
-## Dataset
+## Predicting an Image
+To classify a single image, use:
+```python
+predict_image('path_to_image')
 ```
-├── dataset/                 # Dataset directory
-│   ├── cardboard/           # Example class folder
-│   ├── food_organics/       # Example class folder
-│   ├── glass/               # Example class folder
-│   ├── metal/               # Example class folder
-│   ├── miscellaneous_trash/ # Example class folder
-│   ├── paper/               # Example class folder
-│   ├── plastic/             # Example class folder
-│   ├── textile_trash/       # Example class folder
-│   ├── vegetation/          # Example class folder
+This function will:
+- Load and preprocess the image
+- Use the trained model for classification
+- Display the image along with the predicted class and confidence score
 
-## Model Architecture
-The CNN model consists of:
-- 3 convolutional layers with ReLU activation
-- Max pooling layers
-- Fully connected (Dense) layer with Dropout
-- Softmax output layer for multi-class classification
+## Model Performance
+Training results (for 2 epochs):
+- Accuracy: **68.56%**
+- Validation Accuracy: **39.96%**
+- Loss: **0.9078**
+- Validation Loss: **4.8319**
 
-## Results
-The model is trained for 20 epochs with a batch size of 32, achieving high accuracy on the validation set. The training and validation accuracy/loss graphs are plotted for analysis.
+## Possible Improvements
+- Increase the number of training epochs for better accuracy.
+- Implement callbacks such as Early Stopping and Learning Rate Scheduling.
+- Tune hyperparameters like batch size and learning rate.
+- Try other architectures such as EfficientNet or ResNet.
 
-## Contribution
-Feel free to contribute by submitting issues or pull requests.
+## Acknowledgments
+This project leverages **MobileNetV2**, a lightweight and efficient deep learning model optimized for mobile and embedded vision applications.
 
----
-Developed by 1akin1
-
+1akin1
